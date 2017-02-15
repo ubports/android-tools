@@ -13,8 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Author: Marius Gripsgard <mariogrip@ubports.com>  
+# Author: Marius Gripsgard <mariogrip@ubports.com>
 ##
+
+PREFIX = /usr
 
 all: copy
 
@@ -32,3 +34,14 @@ clean:
 	$(MAKE) -C src/fastboot clean
 	$(MAKE) -C src/adb clean
 	rm fastboot adb
+
+.PHONY: install
+install: copy
+	mkdir -p $(DESTDIR)$(PREFIX)/bin
+	cp fastboot $(DESTDIR)$(PREFIX)/bin/fastboot
+	cp adb $(DESTDIR)$(PREFIX)/bin/adb
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(DESTDIR)$(PREFIX)/bin/fastboot
+	rm -f $(DESTDIR)$(PREFIX)/bin/adb
